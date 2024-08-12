@@ -51,41 +51,45 @@
 
 </div>
 <script>
-    //clear form 
-    document.getElementById("staff-record-form").addEventListener("submit", function (e)   {
-        e.preventDefault();
-        console.log("form captured");
+    document.getElementById("staff-record-form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
 
-        const formData=new FormData(this);
+        const formData = new FormData(this);
 
-        //create a person 
-        const person= {
-            name:formData.get("name"),
-            age:formData.get("age"),
-            gender:formData.get("gender"),
-            position:formData.get("position")
-        };
-        console.log("person",person);
+        fetch('/newstaffrecord', {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => { throw errorData });
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Only proceed if there's no error
+            console.log("Person added", data);
 
-        
-        
+            // Add the person to the table
+            const tableBody = document.getElementById("staff-table-body");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${data.name}</td>
+                <td>${data.age}</td>
+                <td>${data.gender}</td>
+                <td>${data.position}</td>
+            `;
+            tableBody.appendChild(newRow);
 
-        //add person to table 
-        const tableBody=document.getElementById("staff-table-body");
-        const row=document.createElement("tr");
-
-        row.innerHTML=`
-        <td>${person.name}</td>
-        <td>${person.age}</td>
-        <td>${person.gender}</td>
-        <td>${person.position}</td>
-        `;
-
-        tableBody.appendChild(row);
-
-        this.reset();
-
-    })
+            // Clear the form
+            this.reset();
+        })
+        .catch(error => {
+            // Handle validation errors here
+            alert(error.error);  // Display the error returned from the server
+            console.error("Error:", error);
+        });
+    });
 </script>
 
 
