@@ -1,0 +1,29 @@
+body {
+    font-family:Arial,sans-serif;
+    text-align:center;
+    padding-top:20px;
+
+}
+
+#navbar {
+    background-color: #ffffff;
+    color: #fff;
+    overflow: hidden;
+    
+}
+
+#navbar ul, li, a {
+    display:flex;
+    color:rgb(82, 28, 122);
+    
+    margin:auto;
+    
+    
+    
+}
+
+#companylogo {
+    
+    max-width: 50px;
+    max-height:fit-content;
+}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+
+<div class="container-fluid mt-5" id="maincontainer">
+   <div class="d-flex justify-content-start">
+
+    
+    
+    <form class=" border p-3" name="staff-record-form" id="staff-record-form" action="/newstaffrecord" method="POST">
+        <label for="name">Name:</label>
+        <input class="form-control" type="text" name="name" id="name">
+        <label for="age">Age:</label>
+        <input class="form-control" type="number" name="age" id="age" min="18" max="76" step="1" required value="18">
+        <label for="gender">Gender:</label>
+        <select class="form-control" name="gender" id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <label for="position">Position:</label>
+        <select class="form-control" name="position" id="position">
+            <option value="Manager">Manager</option>
+            <option value="Developer">Developer</option>
+            <option value="Designer">Designer</option>
+            <option value="Tester">Tester</option>
+        </select>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        
+
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody id="staff-table-body">
+            <!--dymamic data-->
+
+        </tbody>
+    </table>
+   </div>
+   
+
+</div>
+<script>
+    //clear form 
+    document.getElementById("staff-record-form").addEventListener("submit", function (e)   {
+        e.preventDefault();
+        console.log("form captured");
+
+        const formData=new FormData(this);
+
+        //create a person 
+        const person= {
+            name:formData.get("name"),
+            age:formData.get("age"),
+            gender:formData.get("gender"),
+            position:formData.get("position")
+        };
+        console.log("person",person);
+
+        
+        
+
+        //add person to table 
+        const tableBody=document.getElementById("staff-table-body");
+        const row=document.createElement("tr");
+
+        row.innerHTML=`
+        <td>${person.name}</td>
+        <td>${person.age}</td>
+        <td>${person.gender}</td>
+        <td>${person.position}</td>
+        `;
+
+        tableBody.appendChild(row);
+
+        this.reset();
+
+    })
+</script>
+
+
+
+
+{% endblock %}
